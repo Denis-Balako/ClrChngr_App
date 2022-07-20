@@ -1,10 +1,14 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+// ignore: public_member_api_docs
 class MyApp extends StatelessWidget {
+  /// standard constructor
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -71,16 +75,33 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Main Page
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
+
+  /// Main Page constructor
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Color? mainBackgroundcolor;
+
+  // void initState() {
+  //   super.initState();
+
+  //   mainBackgroundcolor = _getRandomColor();
+  // }
+
+  Color _getRandomColor() {
+    final newColor =
+        Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+
+    return newColor;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,15 +110,27 @@ class _MyHomePageState extends State<MyHomePage> {
           widget.title,
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Hey there',
-              style: Theme.of(context).textTheme.headline6,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            mainBackgroundcolor = _getRandomColor();
+          });
+          // change backgroundColor
+        },
+        child: Container(
+          color: mainBackgroundcolor,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Hey there',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
